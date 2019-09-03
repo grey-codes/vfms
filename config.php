@@ -18,4 +18,12 @@ function password_ver($plaintext, $hash) {
 function logged_in() {
     return isset($_SESSION['userid']) && !empty($_SESSION['userid']);
 }
+
+function getOctets($octal) {
+    $ar = array(0,0,0);
+    $ar[0] = floor($octal/64)%8;
+    $ar[1] = floor($octal/8)%8;
+    $ar[2] = $octal%8;
+    return $ar;
+}
 ?>

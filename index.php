@@ -24,7 +24,9 @@ if ( ! empty( $_POST ) ) {
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
     <body>
-    <div class="container">
+    <div class="container"><div class="header-title">
+			<h1>Virtual File Management System</h1>
+		</div>
     <?php
     if ($code!=0) {
         echo($msg);
@@ -35,6 +37,11 @@ if ( ! empty( $_POST ) ) {
         include('prompt.php');
     }
     ?>
+		
+    <div class="footer">
+        <p>Virtual File Management System designed by Grey Ruessler, Quinn Johnson,
+        Logan Geppert, and Sawyer Loos 2019</p>
+    </div>
     </div>
     </body>
 </html>

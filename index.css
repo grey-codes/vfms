@@ -40,24 +40,41 @@
   
   /* Add padding to containers */
   .container {
-    padding: 1.2rem;
+    padding: 0.5rem;
     width: 50%;
     margin: auto;
   }
 
   
   .header-title {
-      padding: 2rem;
+      padding: 0.5rem;
       background-color: #FF0080;
       color: white;
       text-align:center;
   }
   
-  .footer {
-      padding: 0.1rem;
+  .header-inner {
+      padding: 0.5rem;
       font-size: 0.5rem;
       text-align: right;
       background-color: #f1f1f1;
+  }
+  
+  .footer {
+      padding: 0.5rem;
+      font-size: 0.5rem;
+      text-align: right;
+      background-color: #f1f1f1;
+  }
+  
+  /* style the file panel */
+
+  .filepane {
+    padding: 0.5rem;
+  }
+
+  .filetable tr td {
+    border: 0.2rem solid#FF0080 ;
   }
   
   
