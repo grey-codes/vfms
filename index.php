@@ -24,6 +24,7 @@ if ( ! empty( $_POST ) ) {
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
     <body>
+    <div class="outerContainer">
     <div class="container"><div class="header-title">
 			<h1>Virtual File Management System</h1>
 		</div>
@@ -39,8 +40,8 @@ if ( ! empty( $_POST ) ) {
     ?>
 		
     <div class="footer">
-        <p>Virtual File Management System designed by Grey Ruessler, Quinn Johnson,
-        Logan Geppert, and Sawyer Loos 2019</p>
+        <p>Virtual File Management System designed by CYBERGANG 2019</p>
+    </div>
     </div>
     </div>
     </body>

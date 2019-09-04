@@ -11,6 +11,7 @@ include('config.php');
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>
     <body>
+        <div class="outerContainer">
         <div class="container">
             <div class="header-title">
                 <h1>Virtual File Management System</h1>
@@ -18,14 +19,11 @@ include('config.php');
             <?php
             if ( ! empty( $_POST ) ) {
                 if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
-                    $safeUsername = mysqli_real_escape_string($conn,$_POST['username']);
-                    $query = "SELECT * FROM " . $tbname . " WHERE username = '" . $safeUsername . "'";
-                    $stmt = $conn->prepare($query);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $user = $result->fetch_object();
+                    $un=$_POST['username'];
+                    $user = getUserByName($un);
                     
-                    if ($user === NULL) {
+                    if (is_null($user)) {
+                        $safeUsername = mysqli_real_escape_string($conn,$un);
                         $hash = sha1($_POST['password']);
                         $insQuery = "INSERT INTO userdb (userid, username, passhash) VALUES (NULL, '" . $safeUsername . "', '" . $hash . "')";
                         $insSt = $conn->prepare($insQuery);
@@ -48,6 +46,7 @@ include('config.php');
                 <p>Virtual File Management System designed by Grey Ruessler, Quinn Johnson,
                 Logan Geppert, and Sawyer Loos 2019</p>
             </div>
+        </div>
         </div>
     </body>
 </html>

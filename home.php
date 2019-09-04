@@ -1,9 +1,12 @@
 <script type="text/javascript" src="vfmsFrontend.js">
 </script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once("libs/Mobile_Detect.php");
+$detect = new Mobile_Detect();
 
 $userID = $_SESSION['userid'];
 $username = $_SESSION['username'];
@@ -13,7 +16,7 @@ $sessUser = getUserByID($userID);
 <div class="header-inner">
     <p>Logged in as <?php echo($username) ?><a href="logout.php">Logout</a></p>
 </div>
-<div class="filepane">
+<div class="centerContent">
 <table class="filetable">
     <tr>
         <td>
@@ -24,6 +27,12 @@ $sessUser = getUserByID($userID);
         </td>
         <td>
             File Permissions
+        </td>
+        <?php
+        if ( $detect->isMobile() ) {
+            echo("</tr><tr>");
+        }?>
+        <td>
         </td>
         <td>
         </td>
@@ -49,6 +58,8 @@ while ($file = $result->fetch_object())
     $ownerName = "null";
 
     $rwx = getPermissionContext($sessUser, $file);
+    $rwxown = getPermissionContext(getUserByID($oid), $file);
+    $rwxpub = getPermissionContext(NULL, $file);
 
     if (!is_null($owner)) {
         $ownerName = $owner->username;
@@ -62,24 +73,43 @@ while ($file = $result->fetch_object())
 
         echo("<td>" . $ownerName . "</td>");
         echo("<td>");
-        echo(($rwx->r)?"r":"_");
-        echo(($rwx->w)?"w":"_");
-        echo(($rwx->x)?"x":"_");
+        echo(($rwxown->r)?"r":"_");
+        echo(($rwxown->w)?"w":"_");
+        echo(($rwxown->x)?"x":"_");
+        echo(" || ");
+        echo(($rwxpub->r)?"r":"_");
+        echo(($rwxpub->w)?"w":"_");
+        echo(($rwxpub->x)?"x":"_");
         echo("</td>");
+        if ( $detect->isMobile() ) {
+            echo("</tr><tr>");
+        }
+        //permissions
         echo("<td><input type='button'
-        value='Edit'
+        value='Perms...'
         fid='".$fid."'
         vfmsAction='edit' ");
-        if (!$rwx->w) {
+        if ($oid!=$userID) {//(!$rwx->w) {
             echo("disabled ");
         }
         echo("
         onclick=\"javascript:vfmsUse(this)\"></td>");
+        //view/download
         echo("<td><input type='button'
-        value='View'
+        value='Download'
         fid='".$fid."'
         vfmsAction='view' ");
         if (!$rwx->r) {
+            echo("disabled ");
+        }
+        echo("
+        onclick=\"javascript:vfmsUse(this)\"></td>");
+        //remove
+        echo("<td><input type='button'
+        value='Delete'
+        fid='".$fid."'
+        vfmsAction='delete' ");
+        if (!$rwx->w) {
             echo("disabled ");
         }
         echo("
@@ -91,3 +121,29 @@ while ($file = $result->fetch_object())
 ?>
 </table>
 </div>
+<form id="uploadForm" name="uploadForm">
+    Select file to upload:
+    <input type="file" name="myfile" id="myfile">
+    <input type="submit" value="Upload File" name="submit">
+</form>
+<script type="text/javascript">
+  $("#uploadForm").submit(function(evt){	
+     evt.preventDefault();
+     var formData = new FormData($(this)[0]);
+  $.ajax({
+      url: '/upload.php',
+      type: 'POST',
+      data: formData,
+      async: false,
+      cache: false,
+      contentType: false,
+      enctype: 'multipart/form-data',
+      processData: false,
+      success: function (response) {
+        alert(response);
+        location.reload();
+      }
+  });
+  return false;
+});
+</script>

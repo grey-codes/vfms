@@ -43,10 +43,20 @@
   
   
   /* Add padding to containers */
-  .container {
-    padding: 0.5rem;
+  .outerContainer {
     width: 50%;
     margin: auto;
+    padding: 0.5rem;
+  }
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .container div, .container form {
+    width: 100%;
+    padding: 0.5rem;
   }
 
   
@@ -77,11 +87,24 @@
     padding: 0.5rem;
     width: 100%;
     height: auto;
-    display: grid;
+  }
+
+  .centerContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
   }
 
   .filetable {
     border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+   }
+
+  .filetable tr {
     border-left: 0.2rem solid#FF0080;
     border-right: 0.2rem solid#FF0080;
   }
@@ -91,10 +114,13 @@
     border: 0.2rem solid#FF0080;
     border-left: none;
     border-right: none;
+    height: 1rem;
+    overflow: hidden;
   }
 
   .filetable input[type=button] {
     padding: 0.5rem 0.5rem;
+    margin: 0rem;
   }
   
   
@@ -107,7 +133,7 @@
     .cancelbtn {
       width: 100%;
     }
-    .container {
+    .outerContainer {
         width: 90%;
     }
   } 
