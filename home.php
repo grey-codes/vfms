@@ -1,4 +1,5 @@
-
+<script type="text/javascript" src="vfmsFrontend.js">
+</script>
 <?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -6,6 +7,7 @@ error_reporting(E_ALL);
 
 $userID = $_SESSION['userid'];
 $username = $_SESSION['username'];
+$sessUser = getUserByID($userID);
 ?>
 
 <div class="header-inner">
@@ -13,6 +15,21 @@ $username = $_SESSION['username'];
 </div>
 <div class="filepane">
 <table class="filetable">
+    <tr>
+        <td>
+            File Path
+        </td>
+        <td>
+            File Owner
+        </td>
+        <td>
+            File Permissions
+        </td>
+        <td>
+        </td>
+        <td>
+        </td>
+    </tr>
 <?php
 
 $aclTableName = "acl";
@@ -21,31 +38,53 @@ $query = "SELECT * FROM " . $aclTableName;
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt -> get_result();
-while ($row = $result->fetch_array(MYSQLI_NUM))
+while ($file = $result->fetch_object())
 {
-    $fid = $row[0];
-    $fpath = $row[1];
-    $oid = $row[2];
-    $perm = $row[3];
-    $permAr = getOctets($perm);
+    $fid = $file -> fileid;
+    $fpath = $file -> filepath;
+    $oid = $file -> ownerid;
+    $perm = $file -> unixperm;
 
-    $shouldDisplay = false;
-    if ($oid == $userID && $permAr[0]>0) {
-        $shouldDisplay = true;
+    $owner = getUserByID($oid);
+    $ownerName = "null";
+
+    $rwx = getPermissionContext($sessUser, $file);
+
+    if (!is_null($owner)) {
+        $ownerName = $owner->username;
     }
-    elseif ($permAr[2]>0) {
-        $shouldDisplay = true;
-    }
+
+    $shouldDisplay = ($rwx->r || $rwx->w || $rwx->x);
 
     if ($shouldDisplay) {
         echo("<tr>");
+        echo("<td>" . $fpath . "</td>");
+
+        echo("<td>" . $ownerName . "</td>");
         echo("<td>");
-        var_dump($row);
+        echo(($rwx->r)?"r":"_");
+        echo(($rwx->w)?"w":"_");
+        echo(($rwx->x)?"x":"_");
         echo("</td>");
-        echo("<td>");
-        var_dump($permAr[0] . "," . $permAr[1] . "," . $permAr[2]);
-        echo("</td>");
-        echo("</tr>");
+        echo("<td><input type='button'
+        value='Edit'
+        fid='".$fid."'
+        vfmsAction='edit' ");
+        if (!$rwx->w) {
+            echo("disabled ");
+        }
+        echo("
+        onclick=\"javascript:vfmsUse(this)\"></td>");
+        echo("<td><input type='button'
+        value='View'
+        fid='".$fid."'
+        vfmsAction='view' ");
+        if (!$rwx->r) {
+            echo("disabled ");
+        }
+        echo("
+        onclick=\"javascript:vfmsUse(this)\"></td>");
+        echo("</tr>\n");
     }
 }
 

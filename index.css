@@ -31,7 +31,11 @@
     cursor: pointer;
     width: 100%;
   }
-  
+
+  input[type=button]:disabled,  input[type=submit]:disabled {
+    background-color: #ccc;
+  }
+
   /* Add a hover effect for buttons */
   button:hover {
     opacity: 0.8;
@@ -71,10 +75,26 @@
 
   .filepane {
     padding: 0.5rem;
+    width: 100%;
+    height: auto;
+    display: grid;
   }
 
+  .filetable {
+    border-collapse: collapse;
+    border-left: 0.2rem solid#FF0080;
+    border-right: 0.2rem solid#FF0080;
+  }
+  
   .filetable tr td {
-    border: 0.2rem solid#FF0080 ;
+    padding: 0.5rem;
+    border: 0.2rem solid#FF0080;
+    border-left: none;
+    border-right: none;
+  }
+
+  .filetable input[type=button] {
+    padding: 0.5rem 0.5rem;
   }
   
   

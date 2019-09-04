@@ -1,5 +1,8 @@
 <?php
 include('config.php');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,14 +21,9 @@ include('config.php');
             <?php
             if ( ! empty( $_POST ) ) {
                 if ( isset( $_POST['username'] ) && isset( $_POST['password'] ) ) {
-                    $safeUsername = mysqli_real_escape_string($conn,$_POST['username']);
-                    $query = "SELECT * FROM " . $tbname . " WHERE username = '" . $safeUsername . "'";
-                    $stmt = $conn->prepare($query);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-                    $user = $result->fetch_object();
+                    $user = getUserByName($_POST['username']);
                         
-                    if ( password_ver( $_POST['password'], $user->passhash ) ) {
+                    if ( !is_null($user) && password_ver( $_POST['password'], $user->passhash ) ) {
                         $_SESSION['userid'] = $user->userid;
                         $_SESSION['username'] = $user->username;
                         echo("<h1>Login verified.</h1>");
