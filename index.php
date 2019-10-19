@@ -3,7 +3,7 @@
 $msg = "";
 $code = 0;
 
-include('config.php');
+include('shared.php');
 
 if ( ! empty( $_POST ) ) {
     if ( isset( $_POST['msg'] ) ) {
@@ -20,6 +20,7 @@ if ( ! empty( $_POST ) ) {
 		<title>Virtual File Management System</title>
         <link rel="stylesheet" href="index.css">
         <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/099a1cb3f3.js" crossorigin="anonymous"></script>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 	</head>

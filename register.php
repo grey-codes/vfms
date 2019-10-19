@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('shared.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,8 +24,8 @@ include('config.php');
                     
                     if (is_null($user)) {
                         $safeUsername = mysqli_real_escape_string($conn,$un);
-                        $hash = sha1($_POST['password']);
-                        $insQuery = "INSERT INTO userdb (userid, username, passhash) VALUES (NULL, '" . $safeUsername . "', '" . $hash . "')";
+                        $hash = hash("sha512",$_POST['password']);
+                        $insQuery = "INSERT INTO users (userid, username, passhash) VALUES (NULL, '" . $safeUsername . "', '" . $hash . "')";
                         $insSt = $conn->prepare($insQuery);
                         $insSt->execute();
                         echo("<h1>User created. Please log in.</h1>");
@@ -38,7 +38,7 @@ include('config.php');
             
             <script type="text/javascript">
             setTimeout(function () {
-            window.location.href = "/";
+            window.location.href = "index.php";
             }, 2000);
             </script>
                 

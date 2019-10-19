@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('shared.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +34,7 @@ include('config.php');
 
             <script type="text/javascript">
             setTimeout(function () {
-            window.location.href = "/";
+            window.location.href = "index.php";
             }, 2000);
             </script>
                 

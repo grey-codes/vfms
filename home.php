@@ -41,9 +41,7 @@ $sessUser = getUserByID($userID);
     </tr>
 <?php
 
-$aclTableName = "acl";
-
-$query = "SELECT * FROM " . $aclTableName;
+$query = "SELECT * FROM " . $filetb;
 $stmt = $conn->prepare($query);
 $stmt->execute();
 $result = $stmt -> get_result();

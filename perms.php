@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('shared.php');
 
 $userID = $_SESSION['userid'];
 $username = $_SESSION['username'];
