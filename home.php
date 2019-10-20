@@ -14,7 +14,15 @@ $sessUser = getUserByID($userID);
 ?>
 
 <div class="header-inner">
-    <p>Logged in as <?php echo($username) ?><a href="logout.php">Logout</a></p>
+    <span id="calc">
+        <i class="fas fa-calculator"></i>
+    </span>
+    <span id="text">Logged in as <?php echo($username) ?><a href="logout.php">Logout</a></span>
+    <script>
+        $("#calc").click(function() {
+            window.location.href = "calculator.php";
+        })
+    </script>
 </div>
 <div class="centerContent">
 <table class="filetable">
@@ -129,7 +137,7 @@ while ($file = $result->fetch_object())
      evt.preventDefault();
      var formData = new FormData($(this)[0]);
   $.ajax({
-      url: '/upload.php',
+      url: 'upload.php',
       type: 'POST',
       data: formData,
       async: false,
